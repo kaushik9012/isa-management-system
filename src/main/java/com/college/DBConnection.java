@@ -1,25 +1,28 @@
-package com.college; // Ensure this matches your package name
+package com.college;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
-public static Connection getConnection() {
-    try {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        
-        // This pulls the connection details automatically from Railway
-        String host = System.getenv("MYSQLHOST");
-        String port = System.getenv("MYSQLPORT");
-        String dbName = System.getenv("MYSQLDATABASE");
-        String user = System.getenv("MYSQLUSER");
-        String password = System.getenv("MYSQLPASSWORD");
+public class DBConnection {
+    public static Connection getConnection() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            
+            // These pull the correct cloud addresses automatically
+            String host = System.getenv("MYSQLHOST");
+            String port = System.getenv("MYSQLPORT");
+            String dbName = System.getenv("MYSQLDATABASE");
+            String user = System.getenv("MYSQLUSER");
+            String password = System.getenv("MYSQLPASSWORD");
 
-        // The full connection URL
-        String url = "jdbc:mysql://" + host + ":" + port + "/" + dbName;
+            // Build the dynamic URL
+            String url = "jdbc:mysql://" + host + ":" + port + "/" + dbName;
 
-        return DriverManager.getConnection(url, user, password);
-    } catch (Exception e) {
-        e.printStackTrace();
-        return null;
+            return DriverManager.getConnection(url, user, password);
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
