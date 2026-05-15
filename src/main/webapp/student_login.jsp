@@ -1,9 +1,11 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="com.college.DBConnection"%> <%-- Add this import --%>
 <%@page import="java.sql.*"%>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Student Login | DBCE</title>
+    <meta charset="UTF-8">
     <style>
         :root { --primary: #1e3a8a; --bg: #f1f5f9; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
