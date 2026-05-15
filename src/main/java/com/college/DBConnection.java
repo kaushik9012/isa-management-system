@@ -3,22 +3,23 @@ package com.college; // Ensure this matches your package name
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-public class DBConnection {
-    public static Connection getConnection() throws Exception {
-        // Railway automatically provides the MYSQL_URL environment variable
-        String dbUrl = System.getenv("MYSQL_URL"); 
+public static Connection getConnection() {
+    try {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        
+        // This pulls the connection details automatically from Railway
+        String host = System.getenv("MYSQLHOST");
+        String port = System.getenv("MYSQLPORT");
+        String dbName = System.getenv("MYSQLDATABASE");
+        String user = System.getenv("MYSQLUSER");
+        String password = System.getenv("MYSQLPASSWORD");
 
-        if (dbUrl == null) {
-            // --- LOCAL SETTINGS (XAMPP) ---
-            // If MYSQL_URL is missing, we are on your laptop.
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            return DriverManager.getConnection("jdbc:mysql://localhost:3306/college_db", "root", "");
-        } else {
-            // --- CLOUD SETTINGS (RAILWAY) ---
-            // Railway uses 'mysql://', but Java needs 'jdbc:mysql://'
-            String jdbcUrl = dbUrl.replace("mysql://", "jdbc:mysql://");
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            return DriverManager.getConnection(jdbcUrl);
-        }
+        // The full connection URL
+        String url = "jdbc:mysql://" + host + ":" + port + "/" + dbName;
+
+        return DriverManager.getConnection(url, user, password);
+    } catch (Exception e) {
+        e.printStackTrace();
+        return null;
     }
 }
