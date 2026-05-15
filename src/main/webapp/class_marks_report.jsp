@@ -56,7 +56,7 @@
 <body>
 
     <div class="action-bar">
-        <a href="teacher_dashboard.jsp" class="btn btn-back">? Back to Dashboard</a>
+        <a href="teacher_dashboard.jsp" class="btn btn-back">Back to Dashboard</a>
         <button class="btn btn-print" onclick="window.print()">Print Report</button>
     </div>
 
