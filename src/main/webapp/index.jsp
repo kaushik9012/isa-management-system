@@ -1,8 +1,10 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="com.college.DBConnection"%> <%-- Add this import --%>
 <%@page import="java.sql.*"%>
 <html>
 <head>
     <title>Academic Portal | DBCE Goa</title>
+    <meta charset="UTF-8">
     <style>
         body { font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; height: 100vh; background: #f4f7f6; justify-content: center; align-items: center; }
         .card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); text-align: center; width: 600px; }
