@@ -20,9 +20,9 @@
         <h1>DON BOSCO COLLEGE OF ENGINEERING</h1>
         <h3>ISA Management (RC 2024-25)</h3>
         <div class="roles">
-            <a href="student_login.jsp" class="role-btn student">? STUDENT LOGIN</a>
-            <a href="teacher_login.jsp" class="role-btn teacher">??? FACULTY LOGIN</a>
-        </div>
+    <a href="student_login.jsp" class="role-btn student">🎓 STUDENT LOGIN</a>
+    <a href="teacher_login.jsp" class="role-btn teacher">👨‍🏫 FACULTY LOGIN</a>
+</div>
     </div>
 </body>
 </html>
