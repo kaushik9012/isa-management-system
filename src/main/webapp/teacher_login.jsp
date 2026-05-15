@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="com.college.DBConnection"%> <%-- Add this import --%>
 <%@page import="java.sql.*"%>
 <!DOCTYPE html>
@@ -55,12 +56,12 @@
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" name="password" placeholder="????????" required>
+                <input type="password" name="password" placeholder="🔒 Enter Password" required>
             </div>
             <button type="submit" class="btn-login">Login to Dashboard</button>
         </form>
         <div style="text-align: center; margin-top: 20px;">
-            <a href="index.jsp" style="color: #764ba2; text-decoration: none; font-size: 14px;">? Back to Role Selection</a>
+            <a href="index.jsp" style="color: #764ba2; text-decoration: none; font-size: 14px;">⬅️ Back to Role Selection</a>
         </div>
     </div>
 </body>
