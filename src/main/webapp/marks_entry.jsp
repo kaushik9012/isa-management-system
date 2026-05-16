@@ -42,6 +42,7 @@
             document.getElementById('courseCode').value = data[0];
             document.getElementById('subjectName').value = data[1];
             document.getElementById('credits').value = data[2];
+            document.getElementById('courseType').value = data[3];
             document.getElementById('semester').value = data[4];
 
 
