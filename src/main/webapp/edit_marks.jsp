@@ -1,8 +1,8 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="com.college.DBConnection"%>
 <%@page import="java.sql.*"%>
 <% 
     // Security and Session Check
-    String sClass = (String) session.getAttribute("studentClass");
     if (session.getAttribute("rollNo") == null) { 
         response.sendRedirect("student_login.jsp"); 
         return; 
@@ -15,172 +15,110 @@
     }
 %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Edit ISA Record | DBCE</title>
+    <meta charset="UTF-8">
+    <title>Update Record | DBCE Goa</title>
     <style>
-        :root { --primary: #1e3a8a; --bg: #f8fafc; --border: #e2e8f0; }
+        :root { --primary: #1e3a8a; --bg: #f8fafc; --accent: #7c3aed; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; display: flex; }
         .sidebar { width: 260px; background: var(--primary); color: white; height: 100vh; position: fixed; }
         .main { margin-left: 260px; padding: 40px; width: calc(100% - 260px); }
-        .card { background: white; border-radius: 12px; padding: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .card { background: white; border-radius: 12px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
         .table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        .table td { padding: 12px; border-bottom: 1px solid var(--border); }
-        input, select { padding: 10px; border: 1px solid var(--border); border-radius: 6px; width: 100%; box-sizing: border-box; }
-        .btn-save { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 6px; cursor: pointer; font-weight: bold; float: right; margin-top: 20px; }
-        .theory-group { display: flex; gap: 5px; }
-        .theory-group input { width: 65px; text-align: center; }
-        input[readonly] { background: #f1f5f9; cursor: not-allowed; }
+        .table td { padding: 15px; border-bottom: 1px solid #f1f5f9; }
+        input { padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; width: 100%; box-sizing: border-box; }
+        .btn-update { background: var(--accent); color: white; border: none; padding: 14px 35px; border-radius: 8px; cursor: pointer; font-weight: bold; float: right; margin-top: 25px; }
+        .marks-grid { display: flex; gap: 10px; }
+        .marks-grid div { flex: 1; }
+        .label-mini { font-size: 11px; color: #64748b; font-weight: bold; display: block; margin-bottom: 5px; text-transform: uppercase; }
+        .subject-badge { background: #eff6ff; color: #1e40af; padding: 5px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+        input[readonly] { background: #f8fafc; cursor: not-allowed; font-weight: 600; color: #475569; }
     </style>
     <script>
         function validateLimit(input) {
             if (input.value !== "" && parseInt(input.value) > parseInt(input.max)) {
-                alert("The maximum marks allowed for this field is " + input.max);
+                alert("Max allowed marks is " + input.max);
                 input.value = input.max;
-            }
-        }
-
-        function applyLimits() {
-            const select = document.getElementById('subjectSelector');
-            if (!select || select.value === "") return;
-            
-            const data = select.value.split('|');
-            const code = data[0];
-            const name = data[1];
-            const credits = parseInt(data[2]);
-            const type = data[3];
-            const sem = data[4];
-
-            document.getElementById('courseCode').value = code;
-            document.getElementById('subjectName').value = name;
-            document.getElementById('credits').value = credits;
-            document.getElementById('semester').value = sem;
-            document.getElementById('courseType').value = type;
-            
-            const theoryDiv = document.getElementById('theoryGroup');
-            const labDiv = document.getElementById('labGroup');
-
-            const tInputs = theoryDiv.querySelectorAll('input');
-            const asgnInput = document.getElementById('asgnField');
-            const labInput = document.getElementById('labField');
-
-            if (type === "Lab") {
-                theoryDiv.style.display = "none"; 
-                labDiv.style.display = "block";
-                const labMax = credits * 10;
-                labInput.max = labMax;
-                labInput.placeholder = "Max " + labMax;
-            } else {
-                theoryDiv.style.display = "flex"; 
-                labDiv.style.display = "none";
-                let tMax = (credits === 3) ? 20 : 15;
-                let aMax = (credits === 3) ? 10 : 5;
-
-                tInputs.forEach(input => {
-                    input.max = tMax;
-                    input.placeholder = "Max " + tMax;
-                });
-                asgnInput.max = aMax;
-                asgnInput.placeholder = "Max " + aMax;
             }
         }
     </script>
 </head>
-<body onload="applyLimits()">
+<body>
     <div class="sidebar">
-        <div style="padding:25px; text-align:center;"><h3>DBCE PORTAL</h3></div>
-        <a href="view_marks.jsp" style="display:block; padding:15px 25px; color:white; text-decoration:none;">? Back to Records</a>
+        <div style="padding:30px; text-align:center;"><h3>DBCE PORTAL</h3></div>
+        <a href="view_marks.jsp" style="display:block; padding:20px 25px; color:white; text-decoration:none;">⬅️ Back to Records</a>
     </div>
 
     <div class="main">
         <div class="card">
-            <h2>Edit ISA Record</h2>
             <%
                 try {
                     Connection con = DBConnection.getConnection();
                     PreparedStatement ps = con.prepareStatement("SELECT * FROM student_isa_marks WHERE isa_id = ?");
                     ps.setString(1, id);
                     ResultSet rs = ps.executeQuery();
+                    
                     if(rs.next()) {
-                        String currentCode = rs.getString("course_code");
+                        String type = rs.getString("course_type");
+                        int credits = rs.getInt("credits");
+                        
+                        // Calculate Limits
+                        int tMax = (credits == 3) ? 20 : 15;
+                        int aMax = (credits == 3) ? 10 : 5;
+                        int lMax = credits * 10;
             %>
-            <form action="CalculateISA" method="POST">
+            <h2>Update ISA: <%= rs.getString("subject_name") %></h2>
+            <span class="subject-badge"><%= rs.getString("course_code") %> • Semester <%= rs.getString("semester") %></span>
+            
+            <form action="CalculateISA" method="POST" style="margin-top:20px;">
                 <input type="hidden" name="isa_id" value="<%= id %>">
+                <input type="hidden" name="action" value="update">
                 
+                <input type="hidden" name="courseCode" value="<%= rs.getString("course_code") %>">
+                <input type="hidden" name="subjectName" value="<%= rs.getString("subject_name") %>">
+                <input type="hidden" name="credits" value="<%= credits %>">
+                <input type="hidden" name="courseType" value="<%= type %>">
+                <input type="hidden" name="semester" value="<%= rs.getString("semester") %>">
+                <input type="hidden" name="courseCategory" value="<%= rs.getString("course_category") %>">
+
                 <table class="table">
                     <tbody>
                         <tr>
-                            <td><strong>Subject Selection</strong></td>
+                            <td width="30%"><strong>Assessment Marks</strong></td>
                             <td>
-                                <select name="subjectSelector" id="subjectSelector" onchange="applyLimits()" required>
-                                    <% if ("FE".equals(sClass)) { %>
-                                        <optgroup label="First Year">
-                                            <option value="CMP-100|Fundamentals of Programming using C|3|Theory|1" <%= "CMP-100".equals(currentCode)?"selected":"" %>>Programming in C (CMP-100)</option>
-                                            <option value="CMP-101|C Programming Lab|1|Lab|1" <%= "CMP-101".equals(currentCode)?"selected":"" %>>C Lab (CMP-101)</option>
-                                            <option value="SHM-131|Engineering Mathematics - I|3|Theory|1" <%= "SHM-131".equals(currentCode)?"selected":"" %>>Maths-I (SHM-131)</option>
-                                            <option value="SEC-144|Electronics and Mechanical Workshop|3|Lab|1" <%= "SEC-144".equals(currentCode)?"selected":"" %>>Workshop (SEC-144)</option>
-                                        </optgroup>
-                                    <% } else { %>
-                                        <optgroup label="Second Year">
-                                            <option value="CMP-200|Data Structures and Algorithms|3|Theory|3" <%= "CMP-200".equals(currentCode)?"selected":"" %>>Data Structures (CMP-200)</option>
-                                            <option value="CMP-201|Data Structures Lab|1|Lab|3" <%= "CMP-201".equals(currentCode)?"selected":"" %>>DSA Lab (CMP-201)</option>
-                                            <option value="CMP-204|Object Oriented Programming|2|Theory|4" <%= "CMP-204".equals(currentCode)?"selected":"" %>>OOP Systems (CMP-204)</option>
-                                        </optgroup>
-                                    <% } %>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><strong>Course Details</strong></td>
-                            <td>
-                                <input type="hidden" name="subjectName[]" id="subjectName">
-                                <input type="hidden" name="courseType[]" id="courseType">
-                                <input type="hidden" name="semester[]" id="semester">
-                                
-                                <div style="display:flex; gap:10px;">
-                                    <div>
-                                        <label style="font-size:12px; color:#64748b;">Code</label>
-                                        <input type="text" name="courseCode[]" id="courseCode" readonly style="width:120px; font-weight:bold;">
+                                <% if("Theory".equalsIgnoreCase(type)) { %>
+                                    <div class="marks-grid">
+                                        <div>
+                                            <span class="label-mini">Test 1 (Max <%= tMax %>)</span>
+                                            <input type="number" name="t1" value="<%= rs.getInt("test1") %>" max="<%= tMax %>" oninput="validateLimit(this)">
+                                        </div>
+                                        <div>
+                                            <span class="label-mini">Test 2 (Max <%= tMax %>)</span>
+                                            <input type="number" name="t2" value="<%= rs.getInt("test2") %>" max="<%= tMax %>" oninput="validateLimit(this)">
+                                        </div>
+                                        <div>
+                                            <span class="label-mini">Test 3 (Max <%= tMax %>)</span>
+                                            <input type="number" name="t3" value="<%= rs.getInt("test3") %>" max="<%= tMax %>" oninput="validateLimit(this)">
+                                        </div>
+                                        <div>
+                                            <span class="label-mini">Asgn (Max <%= aMax %>)</span>
+                                            <input type="number" name="assignment" value="<%= rs.getInt("assignment") %>" max="<%= aMax %>" oninput="validateLimit(this)">
+                                        </div>
                                     </div>
+                                <% } else { %>
                                     <div>
-                                        <label style="font-size:12px; color:#64748b;">Credits</label>
-                                        <input type="number" name="credits[]" id="credits" readonly style="width:80px; font-weight:bold;">
+                                        <span class="label-mini">Lab / Journal Total (Max <%= lMax %>)</span>
+                                        <input type="number" name="labTotal" value="<%= rs.getInt("lab_total") %>" max="<%= lMax %>" oninput="validateLimit(this)">
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><strong>Marks Entry</strong></td>
-                            <td>
-                                <div id="theoryGroup" class="theory-group">
-                                    <div>
-                                        <label style="font-size:11px; display:block;">Test 1</label>
-                                        <input type="number" name="t1[]" value="<%= rs.getInt("test1") %>" min="0" oninput="validateLimit(this)">
-                                    </div>
-                                    <div>
-                                        <label style="font-size:11px; display:block;">Test 2</label>
-                                        <input type="number" name="t2[]" value="<%= rs.getInt("test2") %>" min="0" oninput="validateLimit(this)">
-                                    </div>
-                                    <div>
-                                        <label style="font-size:11px; display:block;">Test 3</label>
-                                        <input type="number" name="t3[]" value="<%= rs.getInt("test3") %>" min="0" oninput="validateLimit(this)">
-                                    </div>
-                                    <div>
-                                        <label style="font-size:11px; display:block;">Assignment</label>
-                                        <input type="number" name="assignment[]" id="asgnField" value="<%= rs.getInt("assignment") %>" min="0" oninput="validateLimit(this)">
-                                    </div>
-                                </div>
-                                <div id="labGroup" style="display:none;">
-                                    <label style="font-size:11px; display:block;">Lab / Journal Total</label>
-                                    <input type="number" name="labTotal[]" id="labField" value="<%= rs.getInt("lab_total") %>" min="0" oninput="validateLimit(this)">
-                                </div>
+                                <% } %>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <button type="submit" class="btn-save">Update Record</button>
+                <button type="submit" class="btn-update">💾 Save Changes</button>
             </form>
-            <% 
+            <%  
                     } else {
                         out.println("<p style='color:red;'>Record not found.</p>");
                     }
