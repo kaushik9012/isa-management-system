@@ -43,6 +43,8 @@
             document.getElementById('subjectName').value = data[1];
             document.getElementById('credits').value = data[2];
             document.getElementById('semester').value = data[4];
+
+            document.getElementById('courseCategory').value = data[5];
             
             const theoryDiv = document.getElementById('theoryGroup');
             const labDiv = document.getElementById('labGroup');
@@ -104,72 +106,73 @@
                         <tr>
                             <td>
                                 <select onchange="autoFill(this)" required>
-                                    <option value="">-- Choose Course --</option>
-                                    <% if ("FE".equals(sClass)) { %>
-                                        <optgroup label="First Year - Semester I">
-                                            <option value="CMP-100|Fundamentals of Programming using C|3|Theory|1">C Programming (CMP-100)</option>
-                                            <option value="CMP-101|Fundamentals of Programming using C Lab|1|Lab|1">C Programming Lab (CMP-101)</option>
-                                            <option value="EEL-111|Basics of Electrical & Electronics Eng.|3|Theory|1">Basics of Electrical (EEL-111)</option>
-                                            <option value="EEL-112|Basics of Electrical & Electronics Eng. Lab|1|Lab|1">Electrical Lab (EEL-112)</option>
-                                            <option value="SHM-111|Biology for Engineers|3|Theory|1">Biology for Engineers (SHM-111)</option>
-                                            <option value="SHM-112|Biology for Engineers Lab|1|Lab|1">Biology Lab (SHM-112)</option>
-                                            <option value="SHM-131|Engineering Mathematics - I|3|Theory|1">Mathematics - I (SHM-131)</option>
-                                            <option value="AEC-151|Creative Thinking and Innovation|2|Theory|1">Creative Thinking (AEC-151)</option>
-                                            <option value="AEC-152|Creative Thinking and Innovation Lab|1|Lab|1">Creative Thinking Lab (AEC-152)</option>
-                                            <option value="VAC-156|Indian Knowledge System|2|Theory|1">Indian Knowledge System (VAC-156)</option>
-                                            <option value="VAC-157|Indian Knowledge System Lab|1|Lab|1">IKS Lab (VAC-157)</option>
-                                            <option value="SEC-144|Electronics and Mechanical Workshop|3|Lab|1">Workshop (SEC-144)</option>
-                                        </optgroup>
-                                        <optgroup label="First Year - Semester II">
-                                            <option value="ITH-100|Fundamentals of Computing using Python|3|Theory|2">Python Programming (ITH-100)</option>
-                                            <option value="ITH-101|Fundamentals of Computing using Python Lab|1|Lab|2">Python Lab (ITH-101)</option>
-                                            <option value="MCV-111|Basics of Mechanical & Civil Engineering|3|Theory|2">Basics of Mech & Civil (MCV-111)</option>
-                                            <option value="MCV-112|Basics of Mechanical & Civil Engineering Lab|1|Lab|2">Mech & Civil Lab (MCV-112)</option>
-                                            <option value="SHM-113|Engineering Chemistry|3|Theory|2">Engineering Chemistry (SHM-113)</option>
-                                            <option value="SHM-114|Engineering Chemistry Lab|1|Lab|2">Chemistry Lab (SHM-114)</option>
-                                            <option value="SHM-132|Applied Physics|2|Theory|2">Applied Physics (SHM-132)</option>
-                                            <option value="SHM-133|Applied Physics Lab|1|Lab|2">Physics Lab (SHM-133)</option>
-                                            <option value="AEC-153|Communication and Technical Writing|3|Theory|2">Technical Writing (AEC-153)</option>
-                                            <option value="VAC-158|Environmental Science & Sustainability|2|Theory|2">Environmental Science (VAC-158)</option>
-                                            <option value="VAC-159|Environmental Science & Sustainability Lab|1|Lab|2">Env. Science Lab (VAC-159)</option>
-                                            <option value="SEC-143|Engineering Graphics & Design with UI/UX|3|Lab|2">Eng. Graphics/UIUX (SEC-143)</option>
-                                        </optgroup>
-                                    <% } else { %>
-                                        <optgroup label="Second Year - Semester III">
-                                            <option value="CMP-200|Data Structures and Algorithms using C++|3|Theory|3">Data Structures (CMP-200)</option>
-                                            <option value="CMP-201|Data Structures and Algorithms Lab|1|Lab|3">DSA Lab (CMP-201)</option>
-                                            <option value="CMP-202|Digital System Design and Analysis|3|Theory|3">Digital Systems (CMP-202)</option>
-                                            <option value="CMP-203|Digital System Lab|1|Lab|3">Digital Systems Lab (CMP-203)</option>
-                                            <option value="CMP-221|Computer Organization and Architecture|3|Theory|3">Computer Org (CMP-221)</option>
-                                            <option value="CMP-222|Computer Organization Lab|1|Lab|3">Computer Org Lab (CMP-222)</option>
-                                            <option value="CMP-223|Microprocessors and Interfacing|3|Theory|3">Microprocessors (CMP-223)</option>
-                                            <option value="CMP-224|Microprocessors Lab|1|Lab|3">Microprocessors Lab (CMP-224)</option>
-                                            <option value="SHM-234|Engineering Mathematics II|3|Theory|3">Mathematics II (SHM-234)</option>
-                                            <option value="AEC-251|*|2|Theory|3">AEC Elective (AEC-251)</option>
-                                            <option value="CMP-241|Web Technology: Design and Development|3|Lab|3">Web Technology (CMP-241)</option>
-                                        </optgroup>
-                                        <optgroup label="Second Year - Semester IV">
-                                            <option value="CMP-204|Object Oriented Programming Systems|2|Theory|4">OOP Systems (CMP-204)</option>
-                                            <option value="CMP-205|Object Oriented Programming Systems Lab|2|Lab|4">OOP Lab (CMP-205)</option>
-                                            <option value="CMP-206|Internet of Things|3|Theory|4">Internet of Things (CMP-206)</option>
-                                            <option value="CMP-207|Internet of Things Lab|1|Lab|4">IoT Lab (CMP-207)</option>
-                                            <option value="CMP-208|Automata Theory and Formal Languages|3|Theory|4">Automata Theory (CMP-208)</option>
-                                            <option value="CMP-209|Automata Theory Lab|1|Lab|4">Automata Lab (CMP-209)</option>
-                                            <option value="CMP-210|Software Engineering and Project Management|3|Theory|4">Software Eng (CMP-210)</option>
-                                            <option value="CMP-211|Software Engineering Lab|1|Lab|4">Software Eng Lab (CMP-211)</option>
-                                            <option value="CMP-225|Graph Theory and Combinatorics|3|Theory|4">Graph Theory (CMP-225)</option>
-                                            <option value="CMP-226|Graph Theory and Combinatorics Lab|1|Lab|4">Graph Theory Lab (CMP-226)</option>
-                                            <option value="CMP-227|Computational Number Theory|3|Theory|4">Number Theory (CMP-227)</option>
-                                            <option value="CMP-228|Computational Number Theory Lab|1|Lab|4">Number Theory Lab (CMP-228)</option>
-                                        </optgroup>
-                                    <% } %>
-                                </select>
+    <option value="">-- Choose Course --</option>
+    <% if ("FE".equals(sClass)) { %>
+        <optgroup label="First Year - Semester I">
+            <option value="CMP-100|Fundamentals of Programming using C|3|Theory|1|Major">C Programming (CMP-100)</option>
+            <option value="CMP-101|Fundamentals of Programming using C Lab|1|Lab|1|Major">C Lab (CMP-101)</option>
+            <option value="EEL-111|Basics of Electrical & Electronics Eng.|3|Theory|1|Major">Basics of Electrical (EEL-111)</option>
+            <option value="EEL-112|Basics of Electrical & Electronics Eng. Lab|1|Lab|1|Major">Electrical Lab (EEL-112)</option>
+            <option value="SHM-111|Biology for Engineers|3|Theory|1|Major">Biology for Engineers (SHM-111)</option>
+            <option value="SHM-112|Biology for Engineers Lab|1|Lab|1|Major">Biology Lab (SHM-112)</option>
+            <option value="SHM-131|Engineering Mathematics - I|3|Theory|1|Major">Mathematics - I (SHM-131)</option>
+            <option value="AEC-151|Creative Thinking and Innovation|2|Theory|1|Minor">Creative Thinking (AEC-151)</option>
+            <option value="AEC-152|Creative Thinking and Innovation Lab|1|Lab|1|Minor">Creative Thinking Lab (AEC-152)</option>
+            <option value="VAC-156|Indian Knowledge System|2|Theory|1|Minor">Indian Knowledge System (VAC-156)</option>
+            <option value="VAC-157|Indian Knowledge System Lab|1|Lab|1|Minor">IKS Lab (VAC-157)</option>
+            <option value="SEC-144|Electronics and Mechanical Workshop|3|Lab|1|Major">Workshop (SEC-144)</option>
+        </optgroup>
+        <optgroup label="First Year - Semester II">
+            <option value="ITH-100|Fundamentals of Computing using Python|3|Theory|2|Major">Python Programming (ITH-100)</option>
+            <option value="ITH-101|Fundamentals of Computing using Python Lab|1|Lab|2|Major">Python Lab (ITH-101)</option>
+            <option value="MCV-111|Basics of Mechanical & Civil Engineering|3|Theory|2|Major">Basics of Mech & Civil (MCV-111)</option>
+            <option value="MCV-112|Basics of Mechanical & Civil Engineering Lab|1|Lab|2|Major">Mech & Civil Lab (MCV-112)</option>
+            <option value="SHM-113|Engineering Chemistry|3|Theory|2|Major">Engineering Chemistry (SHM-113)</option>
+            <option value="SHM-114|Engineering Chemistry Lab|1|Lab|2|Major">Chemistry Lab (SHM-114)</option>
+            <option value="SHM-132|Applied Physics|2|Theory|2|Major">Applied Physics (SHM-132)</option>
+            <option value="SHM-133|Applied Physics Lab|1|Lab|2|Major">Physics Lab (SHM-133)</option>
+            <option value="AEC-153|Communication and Technical Writing|3|Theory|2|Minor">Technical Writing (AEC-153)</option>
+            <option value="VAC-158|Environmental Science & Sustainability|2|Theory|2|Minor">Environmental Science (VAC-158)</option>
+            <option value="VAC-159|Environmental Science & Sustainability Lab|1|Lab|2|Minor">Env. Science Lab (VAC-159)</option>
+            <option value="SEC-143|Engineering Graphics & Design with UI/UX|3|Lab|2|Major">Eng. Graphics/UIUX (SEC-143)</option>
+        </optgroup>
+    <% } else { %>
+        <optgroup label="Second Year - Semester III">
+            <option value="CMP-200|Data Structures and Algorithms using C++|3|Theory|3|Major">Data Structures (CMP-200)</option>
+            <option value="CMP-201|Data Structures and Algorithms Lab|1|Lab|3|Major">DSA Lab (CMP-201)</option>
+            <option value="CMP-202|Digital System Design and Analysis|3|Theory|3|Major">Digital Systems (CMP-202)</option>
+            <option value="CMP-203|Digital System Lab|1|Lab|3|Major">Digital Systems Lab (CMP-203)</option>
+            <option value="CMP-221|Computer Organization and Architecture|3|Theory|3|Major">Computer Org (CMP-221)</option>
+            <option value="CMP-222|Computer Organization Lab|1|Lab|3|Major">Computer Org Lab (CMP-222)</option>
+            <option value="CMP-223|Microprocessors and Interfacing|3|Theory|3|Major">Microprocessors (CMP-223)</option>
+            <option value="CMP-224|Microprocessors Lab|1|Lab|3|Major">Microprocessors Lab (CMP-224)</option>
+            <option value="SHM-234|Engineering Mathematics II|3|Theory|3|Major">Mathematics II (SHM-234)</option>
+            <option value="AEC-251|*|2|Theory|3|Minor">AEC Elective (AEC-251)</option>
+            <option value="CMP-241|Web Technology: Design and Development|3|Lab|3|Major">Web Technology (CMP-241)</option>
+        </optgroup>
+        <optgroup label="Second Year - Semester IV">
+            <option value="CMP-204|Object Oriented Programming Systems|2|Theory|4|Minor">OOP Systems (CMP-204)</option>
+            <option value="CMP-205|Object Oriented Programming Systems Lab|2|Lab|4|Minor">OOP Lab (CMP-205)</option>
+            <option value="CMP-206|Internet of Things|3|Theory|4|Major">Internet of Things (CMP-206)</option>
+            <option value="CMP-207|Internet of Things Lab|1|Lab|4|Major">IoT Lab (CMP-207)</option>
+            <option value="CMP-208|Automata Theory and Formal Languages|3|Theory|4|Major">Automata Theory (CMP-208)</option>
+            <option value="CMP-209|Automata Theory Lab|1|Lab|4|Major">Automata Lab (CMP-209)</option>
+            <option value="CMP-210|Software Engineering and Project Management|3|Theory|4|Major">Software Eng (CMP-210)</option>
+            <option value="CMP-211|Software Engineering Lab|1|Lab|4|Major">Software Eng Lab (CMP-211)</option>
+            <option value="CMP-225|Graph Theory and Combinatorics|3|Theory|4|Major">Graph Theory (CMP-225)</option>
+            <option value="CMP-226|Graph Theory and Combinatorics Lab|1|Lab|4|Major">Graph Theory Lab (CMP-226)</option>
+            <option value="CMP-227|Computational Number Theory|3|Theory|4|Major">Number Theory (CMP-227)</option>
+            <option value="CMP-228|Computational Number Theory Lab|1|Lab|4|Major">Number Theory Lab (CMP-228)</option>
+        </optgroup>
+    <% } %>
+</select>
                             </td>
                             <td>
                                 <input type="hidden" name="subjectName[]" id="subjectName">
                                 <input type="hidden" name="courseType[]" id="courseType">
                                 <input type="hidden" name="semester[]" id="semester">
                                 <input type="hidden" name="courseCode[]" id="courseCode">
+                                <input type="hidden" name="courseCategory[]" id="courseCategory">
                                 <input type="number" name="credits[]" id="credits" readonly style="background:#f1f5f9; font-weight:bold;">
                             </td>
                             <td>
