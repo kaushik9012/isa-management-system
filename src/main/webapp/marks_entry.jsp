@@ -44,6 +44,7 @@
             document.getElementById('credits').value = data[2];
             document.getElementById('semester').value = data[4];
 
+
             document.getElementById('courseCategory').value = data[5];
             
             const theoryDiv = document.getElementById('theoryGroup');
